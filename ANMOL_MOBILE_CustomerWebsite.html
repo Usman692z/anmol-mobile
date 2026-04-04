@@ -1,0 +1,985 @@
+<!DOCTYPE html>
+<html lang="en" data-theme="dark">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>ANMOL MOBILE – Premium Phones & Accessories</title>
+  <meta name="description" content="Shop premium new & used iPhones, Samsung, and accessories at ANMOL MOBILE. Best prices, genuine products." />
+  <link rel="preconnect" href="https://fonts.googleapis.com" />
+  <link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;500;600;700;800&family=DM+Sans:ital,opsz,wght@0,9..40,300;0,9..40,400;0,9..40,500;1,9..40,300&display=swap" rel="stylesheet" />
+  <style>
+    /* ===== CSS VARIABLES ===== */
+    :root {
+      --bg: #0a0a0a;
+      --bg2: #111111;
+      --bg3: #1a1a1a;
+      --card: #161616;
+      --border: rgba(255,255,255,0.08);
+      --border2: rgba(255,255,255,0.14);
+      --text: #f5f5f7;
+      --text2: #a1a1aa;
+      --text3: #6b6b75;
+      --accent: #f5f5f7;
+      --gold: #d4a843;
+      --gold2: #f0c060;
+      --green: #30d158;
+      --red: #ff453a;
+      --blue: #0a84ff;
+      --radius: 20px;
+      --radius-sm: 12px;
+      --shadow: 0 8px 40px rgba(0,0,0,0.5);
+      --shadow-lg: 0 24px 80px rgba(0,0,0,0.7);
+    }
+    [data-theme="light"] {
+      --bg: #f5f5f7;
+      --bg2: #ffffff;
+      --bg3: #f0f0f2;
+      --card: #ffffff;
+      --border: rgba(0,0,0,0.06);
+      --border2: rgba(0,0,0,0.12);
+      --text: #1d1d1f;
+      --text2: #6e6e73;
+      --text3: #a1a1aa;
+      --shadow: 0 4px 24px rgba(0,0,0,0.08);
+      --shadow-lg: 0 16px 64px rgba(0,0,0,0.12);
+    }
+
+    /* ===== RESET ===== */
+    *, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+    html { scroll-behavior: smooth; }
+    body {
+      font-family: 'DM Sans', sans-serif;
+      background: var(--bg);
+      color: var(--text);
+      line-height: 1.6;
+      overflow-x: hidden;
+      transition: background 0.3s, color 0.3s;
+    }
+    img { max-width: 100%; display: block; }
+    a { text-decoration: none; color: inherit; }
+    button { cursor: pointer; font-family: inherit; border: none; outline: none; }
+
+    /* ===== SCROLLBAR ===== */
+    ::-webkit-scrollbar { width: 6px; }
+    ::-webkit-scrollbar-track { background: var(--bg); }
+    ::-webkit-scrollbar-thumb { background: var(--border2); border-radius: 3px; }
+
+    /* ===== NAVBAR ===== */
+    .navbar {
+      position: fixed; top: 0; left: 0; right: 0; z-index: 100;
+      display: flex; align-items: center; justify-content: space-between;
+      padding: 0 40px;
+      height: 64px;
+      background: rgba(10,10,10,0.72);
+      backdrop-filter: blur(20px) saturate(1.8);
+      -webkit-backdrop-filter: blur(20px);
+      border-bottom: 1px solid var(--border);
+      transition: background 0.3s;
+    }
+    [data-theme="light"] .navbar { background: rgba(245,245,247,0.82); }
+    .navbar-logo {
+      font-family: 'Syne', sans-serif;
+      font-weight: 800;
+      font-size: 20px;
+      letter-spacing: -0.5px;
+      display: flex; align-items: center; gap: 8px;
+    }
+    .logo-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--gold); display: inline-block; }
+    .navbar-links {
+      display: flex; gap: 32px; list-style: none;
+    }
+    .navbar-links a {
+      font-size: 13px; font-weight: 500; color: var(--text2);
+      transition: color 0.2s; letter-spacing: 0.2px;
+    }
+    .navbar-links a:hover { color: var(--text); }
+    .navbar-actions { display: flex; align-items: center; gap: 16px; }
+    .icon-btn {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--bg3); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      color: var(--text2); font-size: 16px; transition: all 0.2s;
+    }
+    .icon-btn:hover { background: var(--border2); color: var(--text); }
+    .cart-btn {
+      position: relative; background: var(--text); color: var(--bg);
+      border-radius: 20px; padding: 8px 18px; font-size: 13px;
+      font-weight: 600; display: flex; align-items: center; gap: 6px;
+      transition: all 0.2s;
+    }
+    .cart-btn:hover { opacity: 0.88; transform: translateY(-1px); }
+    .cart-badge {
+      background: var(--gold); color: #000; border-radius: 10px;
+      padding: 1px 7px; font-size: 11px; font-weight: 700;
+    }
+
+    /* ===== HERO ===== */
+    .hero {
+      min-height: 100vh; padding: 120px 40px 80px;
+      display: flex; flex-direction: column; align-items: center;
+      text-align: center; position: relative; overflow: hidden;
+    }
+    .hero-bg {
+      position: absolute; inset: 0; z-index: 0;
+      background: radial-gradient(ellipse 900px 700px at 50% 30%, rgba(212,168,67,0.12) 0%, transparent 65%),
+                  radial-gradient(ellipse 600px 400px at 80% 80%, rgba(10,132,255,0.07) 0%, transparent 60%);
+    }
+    .hero-content { position: relative; z-index: 1; max-width: 900px; }
+    .hero-badge {
+      display: inline-flex; align-items: center; gap: 8px;
+      background: rgba(212,168,67,0.12); border: 1px solid rgba(212,168,67,0.3);
+      border-radius: 20px; padding: 6px 16px; margin-bottom: 32px;
+      font-size: 12px; font-weight: 600; color: var(--gold2);
+      letter-spacing: 1px; text-transform: uppercase;
+      animation: fadeUp 0.8s ease both;
+    }
+    .hero-badge span { width: 6px; height: 6px; border-radius: 50%; background: var(--gold); }
+    .hero h1 {
+      font-family: 'Syne', sans-serif;
+      font-size: clamp(48px, 8vw, 96px);
+      font-weight: 800;
+      line-height: 1.0;
+      letter-spacing: -3px;
+      animation: fadeUp 0.8s 0.1s ease both;
+    }
+    .hero h1 span { color: var(--gold); }
+    .hero-sub {
+      font-size: 18px; color: var(--text2); margin: 24px 0 40px;
+      font-weight: 300; max-width: 560px; margin-left: auto; margin-right: auto;
+      animation: fadeUp 0.8s 0.2s ease both;
+    }
+    .hero-cta {
+      display: flex; gap: 14px; justify-content: center; flex-wrap: wrap;
+      animation: fadeUp 0.8s 0.3s ease both;
+    }
+    .btn-primary {
+      background: var(--text); color: var(--bg);
+      padding: 14px 32px; border-radius: 40px; font-size: 15px;
+      font-weight: 600; transition: all 0.25s; letter-spacing: -0.2px;
+    }
+    .btn-primary:hover { transform: translateY(-2px); opacity: 0.9; box-shadow: 0 12px 40px rgba(255,255,255,0.2); }
+    .btn-whatsapp {
+      background: #25d366; color: #fff;
+      padding: 14px 32px; border-radius: 40px; font-size: 15px;
+      font-weight: 600; transition: all 0.25s; display: flex; align-items: center; gap: 8px;
+    }
+    .btn-whatsapp:hover { transform: translateY(-2px); box-shadow: 0 12px 40px rgba(37,211,102,0.35); }
+    .hero-scroll {
+      margin-top: 80px; display: flex; flex-direction: column;
+      align-items: center; gap: 8px; color: var(--text3); font-size: 12px;
+      animation: fadeUp 0.8s 0.5s ease both;
+    }
+    .scroll-line {
+      width: 1px; height: 40px;
+      background: linear-gradient(to bottom, var(--border2), transparent);
+      animation: scrollPulse 2s ease infinite;
+    }
+
+    /* ===== BANNER SLIDER ===== */
+    .banner-section { padding: 40px; overflow: hidden; }
+    .banner-track {
+      display: flex; gap: 20px; overflow-x: auto; scroll-snap-type: x mandatory;
+      scrollbar-width: none; padding-bottom: 4px;
+    }
+    .banner-track::-webkit-scrollbar { display: none; }
+    .banner-card {
+      flex: 0 0 calc(60% - 10px); scroll-snap-align: start;
+      border-radius: 24px; overflow: hidden; position: relative;
+      min-height: 220px; cursor: pointer;
+      background: linear-gradient(135deg, #1a1a2e 0%, #16213e 50%, #0f3460 100%);
+      border: 1px solid var(--border);
+      transition: transform 0.3s;
+    }
+    .banner-card:hover { transform: scale(1.01); }
+    .banner-card:nth-child(2) { background: linear-gradient(135deg, #1a0a00 0%, #2d1500 50%, #4a2000 100%); }
+    .banner-card:nth-child(3) { background: linear-gradient(135deg, #0a1a0a 0%, #0d2b0d 50%, #1a4a1a 100%); }
+    .banner-content { padding: 32px; position: relative; z-index: 1; }
+    .banner-tag {
+      font-size: 11px; font-weight: 700; letter-spacing: 2px; text-transform: uppercase;
+      color: var(--gold); margin-bottom: 12px;
+    }
+    .banner-title { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 700; line-height: 1.1; margin-bottom: 8px; }
+    .banner-desc { font-size: 14px; color: var(--text2); margin-bottom: 20px; }
+    .banner-btn {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: rgba(255,255,255,0.1); border: 1px solid rgba(255,255,255,0.15);
+      border-radius: 20px; padding: 8px 18px; font-size: 13px; font-weight: 600;
+      transition: all 0.2s;
+    }
+    .banner-btn:hover { background: rgba(255,255,255,0.2); }
+    .banner-img {
+      position: absolute; right: -20px; bottom: -10px;
+      width: 160px; opacity: 0.4; filter: blur(0px);
+      transform: rotate(-10deg);
+    }
+
+    /* ===== SECTION HEADER ===== */
+    .section { padding: 80px 40px; }
+    .section-header {
+      display: flex; justify-content: space-between; align-items: flex-end;
+      margin-bottom: 40px;
+    }
+    .section-label {
+      font-size: 11px; font-weight: 700; letter-spacing: 2px;
+      text-transform: uppercase; color: var(--gold); margin-bottom: 8px;
+    }
+    .section-title {
+      font-family: 'Syne', sans-serif; font-size: 36px;
+      font-weight: 700; letter-spacing: -1.5px; line-height: 1.1;
+    }
+    .section-link {
+      font-size: 14px; color: var(--text2); display: flex; align-items: center; gap: 4px;
+      transition: color 0.2s; white-space: nowrap;
+    }
+    .section-link:hover { color: var(--text); }
+
+    /* ===== CATEGORIES ===== */
+    .categories-grid {
+      display: grid; grid-template-columns: repeat(auto-fit, minmax(160px, 1fr)); gap: 14px;
+    }
+    .cat-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 28px 20px;
+      text-align: center; cursor: pointer; transition: all 0.25s;
+      position: relative; overflow: hidden;
+    }
+    .cat-card::before {
+      content: ''; position: absolute; inset: 0;
+      background: linear-gradient(135deg, rgba(212,168,67,0.05), transparent);
+      opacity: 0; transition: opacity 0.3s;
+    }
+    .cat-card:hover { transform: translateY(-4px); border-color: var(--border2); box-shadow: var(--shadow); }
+    .cat-card:hover::before { opacity: 1; }
+    .cat-icon { font-size: 36px; margin-bottom: 12px; }
+    .cat-name { font-family: 'Syne', sans-serif; font-size: 15px; font-weight: 600; margin-bottom: 4px; }
+    .cat-count { font-size: 12px; color: var(--text3); }
+
+    /* ===== PRODUCT GRID ===== */
+    .products-grid {
+      display: grid; grid-template-columns: repeat(auto-fill, minmax(260px, 1fr)); gap: 20px;
+    }
+    .product-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); overflow: hidden;
+      cursor: pointer; transition: all 0.3s; position: relative;
+    }
+    .product-card:hover { transform: translateY(-6px); box-shadow: var(--shadow-lg); border-color: var(--border2); }
+    .product-img-wrap {
+      aspect-ratio: 1; background: var(--bg3);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 80px; position: relative; overflow: hidden;
+    }
+    .product-img-wrap::after {
+      content: ''; position: absolute; inset: 0;
+      background: radial-gradient(circle at 50% 50%, rgba(212,168,67,0.05), transparent 70%);
+    }
+    .product-badge {
+      position: absolute; top: 14px; left: 14px; z-index: 2;
+      border-radius: 8px; padding: 4px 10px; font-size: 11px; font-weight: 700;
+    }
+    .badge-new { background: var(--blue); color: #fff; }
+    .badge-offer { background: var(--red); color: #fff; }
+    .badge-used { background: var(--bg3); color: var(--text2); border: 1px solid var(--border); }
+    .wishlist-btn {
+      position: absolute; top: 14px; right: 14px; z-index: 2;
+      width: 34px; height: 34px; border-radius: 50%;
+      background: rgba(0,0,0,0.5); backdrop-filter: blur(8px);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; transition: all 0.2s; color: var(--text2);
+    }
+    .wishlist-btn:hover, .wishlist-btn.active { color: var(--red); }
+    .product-info { padding: 18px; }
+    .product-brand { font-size: 11px; color: var(--gold); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 4px; }
+    .product-name { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 600; margin-bottom: 8px; line-height: 1.3; }
+    .product-specs { font-size: 12px; color: var(--text3); margin-bottom: 14px; }
+    .product-footer { display: flex; align-items: center; justify-content: space-between; }
+    .product-price { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; }
+    .product-price span { font-size: 13px; font-weight: 400; color: var(--text3); text-decoration: line-through; margin-left: 4px; }
+    .add-cart-btn {
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--text); color: var(--bg);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; transition: all 0.2s;
+    }
+    .add-cart-btn:hover { transform: scale(1.1); }
+
+    /* ===== PRODUCT MODAL ===== */
+    .modal-overlay {
+      position: fixed; inset: 0; z-index: 200;
+      background: rgba(0,0,0,0.8); backdrop-filter: blur(10px);
+      display: flex; align-items: center; justify-content: center;
+      padding: 20px; opacity: 0; pointer-events: none; transition: opacity 0.3s;
+    }
+    .modal-overlay.open { opacity: 1; pointer-events: all; }
+    .modal {
+      background: var(--bg2); border: 1px solid var(--border2);
+      border-radius: 28px; max-width: 860px; width: 100%;
+      max-height: 90vh; overflow-y: auto;
+      transform: scale(0.95) translateY(20px); transition: transform 0.3s;
+      scrollbar-width: thin;
+    }
+    .modal-overlay.open .modal { transform: scale(1) translateY(0); }
+    .modal-inner { display: grid; grid-template-columns: 1fr 1fr; }
+    .modal-gallery {
+      background: var(--bg3); border-radius: 28px 0 0 28px;
+      padding: 40px; display: flex; flex-direction: column; gap: 12px;
+    }
+    .modal-main-img {
+      aspect-ratio: 1; background: var(--bg);
+      border-radius: 16px; display: flex; align-items: center;
+      justify-content: center; font-size: 100px;
+    }
+    .modal-thumbs { display: flex; gap: 8px; }
+    .modal-thumb {
+      width: 56px; height: 56px; border-radius: 10px;
+      background: var(--bg); display: flex; align-items: center;
+      justify-content: center; font-size: 24px; border: 2px solid transparent;
+      cursor: pointer; transition: border-color 0.2s;
+    }
+    .modal-thumb.active { border-color: var(--gold); }
+    .modal-details { padding: 40px; }
+    .modal-brand { font-size: 12px; color: var(--gold); font-weight: 600; letter-spacing: 1.5px; text-transform: uppercase; margin-bottom: 8px; }
+    .modal-name { font-family: 'Syne', sans-serif; font-size: 28px; font-weight: 700; letter-spacing: -0.5px; margin-bottom: 16px; line-height: 1.2; }
+    .modal-condition {
+      display: inline-flex; align-items: center; gap: 6px;
+      background: var(--bg3); border-radius: 8px; padding: 6px 12px;
+      font-size: 12px; font-weight: 600; margin-bottom: 20px;
+    }
+    .cond-dot { width: 8px; height: 8px; border-radius: 50%; background: var(--green); }
+    .modal-price { font-family: 'Syne', sans-serif; font-size: 36px; font-weight: 800; margin-bottom: 6px; }
+    .modal-price-old { font-size: 14px; color: var(--text3); text-decoration: line-through; margin-bottom: 24px; }
+    .specs-grid { display: grid; grid-template-columns: 1fr 1fr; gap: 8px; margin-bottom: 28px; }
+    .spec-item { background: var(--bg3); border-radius: 10px; padding: 10px 14px; }
+    .spec-label { font-size: 10px; color: var(--text3); font-weight: 600; letter-spacing: 1px; text-transform: uppercase; margin-bottom: 2px; }
+    .spec-value { font-size: 13px; font-weight: 500; }
+    .modal-actions { display: flex; flex-direction: column; gap: 10px; }
+    .btn-wa {
+      background: #25d366; color: #fff; padding: 14px;
+      border-radius: 14px; font-size: 15px; font-weight: 600;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: all 0.2s;
+    }
+    .btn-wa:hover { background: #20bc5a; transform: translateY(-1px); }
+    .btn-add {
+      background: var(--text); color: var(--bg); padding: 14px;
+      border-radius: 14px; font-size: 15px; font-weight: 600;
+      display: flex; align-items: center; justify-content: center; gap: 8px;
+      transition: all 0.2s;
+    }
+    .btn-add:hover { opacity: 0.88; }
+    .modal-close {
+      position: absolute; top: 20px; right: 20px;
+      width: 36px; height: 36px; border-radius: 50%;
+      background: var(--bg3); color: var(--text2);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 18px; transition: all 0.2s; z-index: 10;
+    }
+    .modal-close:hover { background: var(--border2); color: var(--text); }
+    .modal-wrap { position: relative; }
+
+    /* ===== SEARCH BAR ===== */
+    .search-section {
+      padding: 20px 40px 0; display: flex; justify-content: center;
+    }
+    .search-bar {
+      display: flex; align-items: center; gap: 12px;
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: 50px; padding: 12px 20px;
+      width: 100%; max-width: 600px; transition: border-color 0.2s;
+    }
+    .search-bar:focus-within { border-color: var(--border2); }
+    .search-bar svg { color: var(--text3); flex-shrink: 0; }
+    .search-bar input {
+      background: none; border: none; outline: none; color: var(--text);
+      font-size: 15px; font-family: 'DM Sans', sans-serif; width: 100%;
+    }
+    .search-bar input::placeholder { color: var(--text3); }
+    .filter-tabs {
+      display: flex; gap: 8px; flex-wrap: wrap; padding: 16px 40px 0;
+    }
+    .filter-tab {
+      padding: 8px 18px; border-radius: 20px; font-size: 13px;
+      font-weight: 500; background: var(--card); border: 1px solid var(--border);
+      color: var(--text2); transition: all 0.2s; cursor: pointer;
+    }
+    .filter-tab.active, .filter-tab:hover {
+      background: var(--text); color: var(--bg); border-color: var(--text);
+    }
+
+    /* ===== STATS ===== */
+    .stats-section {
+      padding: 60px 40px; display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(180px, 1fr)); gap: 20px;
+    }
+    .stat-card {
+      background: var(--card); border: 1px solid var(--border);
+      border-radius: var(--radius); padding: 28px; text-align: center;
+    }
+    .stat-num {
+      font-family: 'Syne', sans-serif; font-size: 40px;
+      font-weight: 800; color: var(--gold); line-height: 1;
+      margin-bottom: 6px;
+    }
+    .stat-label { font-size: 13px; color: var(--text2); }
+
+    /* ===== FOOTER ===== */
+    .footer {
+      background: var(--bg2); border-top: 1px solid var(--border);
+      padding: 60px 40px 40px;
+    }
+    .footer-grid { display: grid; grid-template-columns: 2fr 1fr 1fr 1fr; gap: 40px; margin-bottom: 40px; }
+    .footer-brand p { color: var(--text2); font-size: 14px; margin-top: 12px; line-height: 1.7; max-width: 260px; }
+    .footer-social { display: flex; gap: 10px; margin-top: 20px; }
+    .social-btn {
+      width: 38px; height: 38px; border-radius: 50%;
+      background: var(--bg3); border: 1px solid var(--border);
+      display: flex; align-items: center; justify-content: center;
+      font-size: 16px; transition: all 0.2s;
+    }
+    .social-btn:hover { background: var(--border2); transform: translateY(-2px); }
+    .footer-col h4 { font-family: 'Syne', sans-serif; font-size: 14px; font-weight: 600; margin-bottom: 16px; }
+    .footer-col ul { list-style: none; display: flex; flex-direction: column; gap: 10px; }
+    .footer-col ul a { font-size: 13px; color: var(--text2); transition: color 0.2s; }
+    .footer-col ul a:hover { color: var(--text); }
+    .footer-bottom {
+      border-top: 1px solid var(--border); padding-top: 24px;
+      display: flex; justify-content: space-between; align-items: center;
+      font-size: 12px; color: var(--text3);
+    }
+
+    /* ===== FLOATING ACTIONS ===== */
+    .floating-actions {
+      position: fixed; bottom: 30px; right: 30px; z-index: 90;
+      display: flex; flex-direction: column; gap: 12px; align-items: flex-end;
+    }
+    .fab {
+      width: 56px; height: 56px; border-radius: 50%;
+      display: flex; align-items: center; justify-content: center;
+      font-size: 22px; box-shadow: var(--shadow); transition: all 0.25s;
+      border: none; cursor: pointer;
+    }
+    .fab-wa { background: #25d366; color: #fff; }
+    .fab-wa:hover { transform: scale(1.1); box-shadow: 0 8px 30px rgba(37,211,102,0.4); }
+    .fab-map { background: var(--blue); color: #fff; }
+    .fab-map:hover { transform: scale(1.1); box-shadow: 0 8px 30px rgba(10,132,255,0.4); }
+
+    /* ===== TOAST ===== */
+    .toast {
+      position: fixed; bottom: 30px; left: 50%; transform: translateX(-50%) translateY(80px);
+      background: var(--text); color: var(--bg);
+      padding: 12px 24px; border-radius: 30px; font-size: 14px; font-weight: 600;
+      z-index: 300; transition: transform 0.3s; white-space: nowrap;
+    }
+    .toast.show { transform: translateX(-50%) translateY(0); }
+
+    /* ===== CART DRAWER ===== */
+    .cart-drawer {
+      position: fixed; top: 0; right: 0; bottom: 0; width: 380px; z-index: 150;
+      background: var(--bg2); border-left: 1px solid var(--border);
+      transform: translateX(100%); transition: transform 0.3s cubic-bezier(0.4,0,0.2,1);
+      display: flex; flex-direction: column; box-shadow: var(--shadow-lg);
+    }
+    .cart-drawer.open { transform: translateX(0); }
+    .cart-header {
+      padding: 24px; border-bottom: 1px solid var(--border);
+      display: flex; justify-content: space-between; align-items: center;
+    }
+    .cart-title { font-family: 'Syne', sans-serif; font-size: 20px; font-weight: 700; }
+    .cart-items { flex: 1; overflow-y: auto; padding: 20px; display: flex; flex-direction: column; gap: 14px; }
+    .cart-item {
+      display: flex; gap: 14px; background: var(--card);
+      border: 1px solid var(--border); border-radius: 14px; padding: 14px;
+    }
+    .cart-item-img { width: 60px; height: 60px; border-radius: 10px; background: var(--bg3); display: flex; align-items: center; justify-content: center; font-size: 28px; flex-shrink: 0; }
+    .cart-item-name { font-size: 14px; font-weight: 500; margin-bottom: 4px; }
+    .cart-item-price { font-family: 'Syne', sans-serif; font-size: 16px; font-weight: 700; color: var(--gold); }
+    .cart-remove { color: var(--text3); font-size: 18px; cursor: pointer; margin-left: auto; }
+    .cart-remove:hover { color: var(--red); }
+    .cart-footer { padding: 20px; border-top: 1px solid var(--border); }
+    .cart-total {
+      display: flex; justify-content: space-between;
+      font-family: 'Syne', sans-serif; font-size: 18px; font-weight: 700;
+      margin-bottom: 16px;
+    }
+    .cart-empty { text-align: center; padding: 60px 20px; color: var(--text3); font-size: 14px; }
+    .cart-empty-icon { font-size: 48px; margin-bottom: 12px; }
+
+    /* ===== ANIMATIONS ===== */
+    @keyframes fadeUp {
+      from { opacity: 0; transform: translateY(24px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+    @keyframes scrollPulse {
+      0%, 100% { opacity: 0.3; height: 40px; }
+      50% { opacity: 1; height: 50px; }
+    }
+    .fade-in { animation: fadeUp 0.6s ease both; }
+
+    /* ===== RESPONSIVE ===== */
+    @media (max-width: 768px) {
+      .navbar { padding: 0 20px; }
+      .navbar-links { display: none; }
+      .hero { padding: 100px 20px 60px; }
+      .hero h1 { letter-spacing: -2px; }
+      .section { padding: 60px 20px; }
+      .banner-section { padding: 20px; }
+      .banner-card { flex: 0 0 85%; }
+      .search-section { padding: 20px 20px 0; }
+      .filter-tabs { padding: 12px 20px 0; }
+      .stats-section { padding: 40px 20px; grid-template-columns: 1fr 1fr; }
+      .footer-grid { grid-template-columns: 1fr; gap: 30px; }
+      .footer-bottom { flex-direction: column; gap: 10px; text-align: center; }
+      .modal-inner { grid-template-columns: 1fr; }
+      .modal-gallery { border-radius: 28px 28px 0 0; }
+      .cart-drawer { width: 100%; }
+    }
+  </style>
+</head>
+<body>
+
+<!-- NAVBAR -->
+<nav class="navbar">
+  <div class="navbar-logo">
+    <span class="logo-dot"></span>
+    ANMOL MOBILE
+  </div>
+  <ul class="navbar-links">
+    <li><a href="#phones">Phones</a></li>
+    <li><a href="#accessories">Accessories</a></li>
+    <li><a href="#used">Used Phones</a></li>
+    <li><a href="#about">About</a></li>
+  </ul>
+  <div class="navbar-actions">
+    <button class="icon-btn" onclick="toggleTheme()" title="Toggle theme">🌙</button>
+    <button class="icon-btn" onclick="toggleSearch()" title="Search">🔍</button>
+    <button class="cart-btn" onclick="toggleCart()">
+      🛒 Cart <span class="cart-badge" id="cartCount">0</span>
+    </button>
+  </div>
+</nav>
+
+<!-- HERO -->
+<section class="hero">
+  <div class="hero-bg"></div>
+  <div class="hero-content">
+    <div class="hero-badge"><span></span> Pakistan's Premium Mobile Store</div>
+    <h1>Premium Phones<br><span>Real Prices</span></h1>
+    <p class="hero-sub">Discover the latest iPhones, Samsung Galaxy, and accessories. New & used phones with warranty. Abbottabad's most trusted mobile shop.</p>
+    <div class="hero-cta">
+      <a href="#phones" class="btn-primary">Shop Now →</a>
+      <a href="https://wa.me/c/923145000994" target="_blank" class="btn-whatsapp">
+        <svg width="18" height="18" viewBox="0 0 24 24" fill="currentColor"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+        WhatsApp Order
+      </a>
+    </div>
+    <div class="hero-scroll">
+      <div class="scroll-line"></div>
+      scroll
+    </div>
+  </div>
+</section>
+
+<!-- BANNER SLIDER -->
+<div class="banner-section">
+  <div class="banner-track" id="bannerTrack">
+    <div class="banner-card" onclick="location.href='#phones'">
+      <div class="banner-content">
+        <div class="banner-tag">🔥 Hot Deal</div>
+        <div class="banner-title">iPhone 15 Pro Max</div>
+        <div class="banner-desc">Natural Titanium · 256GB · 5G</div>
+        <div class="banner-btn">Shop Now →</div>
+      </div>
+    </div>
+    <div class="banner-card" onclick="location.href='#used'">
+      <div class="banner-content">
+        <div class="banner-tag">💎 Best Value</div>
+        <div class="banner-title">Certified Used<br>Phones</div>
+        <div class="banner-desc">Tested · Warranted · Trusted</div>
+        <div class="banner-btn">Browse Used →</div>
+      </div>
+    </div>
+    <div class="banner-card" onclick="location.href='#accessories'">
+      <div class="banner-content">
+        <div class="banner-tag">🎁 New Arrivals</div>
+        <div class="banner-title">Accessories<br>Collection</div>
+        <div class="banner-desc">Cases · Chargers · AirPods</div>
+        <div class="banner-btn">View All →</div>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- CATEGORIES -->
+<section class="section" id="categories">
+  <div class="section-header">
+    <div>
+      <div class="section-label">Browse By</div>
+      <h2 class="section-title">Categories</h2>
+    </div>
+  </div>
+  <div class="categories-grid">
+    <div class="cat-card" onclick="filterProducts('iphone')">
+      <div class="cat-icon">📱</div>
+      <div class="cat-name">iPhone</div>
+      <div class="cat-count">24 models</div>
+    </div>
+    <div class="cat-card" onclick="filterProducts('samsung')">
+      <div class="cat-icon">📲</div>
+      <div class="cat-name">Samsung</div>
+      <div class="cat-count">18 models</div>
+    </div>
+    <div class="cat-card" onclick="filterProducts('used')">
+      <div class="cat-icon">♻️</div>
+      <div class="cat-name">Used Phones</div>
+      <div class="cat-count">35+ units</div>
+    </div>
+    <div class="cat-card" onclick="filterProducts('accessories')">
+      <div class="cat-icon">🎧</div>
+      <div class="cat-name">Accessories</div>
+      <div class="cat-count">100+ items</div>
+    </div>
+    <div class="cat-card" onclick="filterProducts('all')">
+      <div class="cat-icon">⌚</div>
+      <div class="cat-name">Smartwatches</div>
+      <div class="cat-count">12 models</div>
+    </div>
+    <div class="cat-card" onclick="filterProducts('all')">
+      <div class="cat-icon">🔌</div>
+      <div class="cat-name">Chargers</div>
+      <div class="cat-count">50+ items</div>
+    </div>
+  </div>
+</section>
+
+<!-- SEARCH + FILTERS -->
+<div class="search-section">
+  <div class="search-bar">
+    <svg width="18" height="18" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+    <input type="text" placeholder="Search phones, brands, models..." id="searchInput" oninput="handleSearch()" />
+  </div>
+</div>
+<div class="filter-tabs">
+  <button class="filter-tab active" onclick="filterProducts('all', this)">All</button>
+  <button class="filter-tab" onclick="filterProducts('iphone', this)">iPhone</button>
+  <button class="filter-tab" onclick="filterProducts('samsung', this)">Samsung</button>
+  <button class="filter-tab" onclick="filterProducts('used', this)">Used</button>
+  <button class="filter-tab" onclick="filterProducts('accessories', this)">Accessories</button>
+  <button class="filter-tab" onclick="filterProducts('offer', this)">🔥 Offers</button>
+</div>
+
+<!-- PHONES -->
+<section class="section" id="phones">
+  <div class="section-header">
+    <div>
+      <div class="section-label">Latest</div>
+      <h2 class="section-title">Featured Phones</h2>
+    </div>
+    <a href="#" class="section-link">View all →</a>
+  </div>
+  <div class="products-grid" id="productsGrid"></div>
+</section>
+
+<!-- STATS -->
+<div class="stats-section">
+  <div class="stat-card">
+    <div class="stat-num">5K+</div>
+    <div class="stat-label">Happy Customers</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num">500+</div>
+    <div class="stat-label">Products Available</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num">3yr</div>
+    <div class="stat-label">In Business</div>
+  </div>
+  <div class="stat-card">
+    <div class="stat-num">★ 4.9</div>
+    <div class="stat-label">Customer Rating</div>
+  </div>
+</div>
+
+<!-- FOOTER -->
+<footer class="footer" id="about">
+  <div class="footer-grid">
+    <div class="footer-brand">
+      <div class="navbar-logo" style="font-size:22px"><span class="logo-dot"></span> ANMOL MOBILE</div>
+      <p>Abbottabad's premium mobile phone shop. New & used iPhones, Samsung, accessories — all with genuine warranty and trusted service.</p>
+      <div class="footer-social">
+        <a href="https://www.facebook.com/share/1G3UdTqYN2/?mibextid=wwXIfr" target="_blank" class="social-btn" title="Facebook">📘</a>
+        <a href="https://wa.me/c/923145000994" target="_blank" class="social-btn" title="WhatsApp">💬</a>
+        <a href="https://maps.app.goo.gl/Ze3NfcsVHbmyRHxB8?g_st=ic" target="_blank" class="social-btn" title="Location">📍</a>
+      </div>
+    </div>
+    <div class="footer-col">
+      <h4>Products</h4>
+      <ul>
+        <li><a href="#phones">New iPhones</a></li>
+        <li><a href="#phones">Samsung Galaxy</a></li>
+        <li><a href="#used">Used Phones</a></li>
+        <li><a href="#accessories">Accessories</a></li>
+        <li><a href="#accessories">Smartwatches</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Visit Us</h4>
+      <ul>
+        <li><a href="https://maps.app.goo.gl/Ze3NfcsVHbmyRHxB8?g_st=ic" target="_blank">📍 Shop Location</a></li>
+        <li><a href="https://wa.me/923145000994" target="_blank">📞 +92 314 5000994</a></li>
+        <li><a href="#">⏰ 10AM – 10PM Daily</a></li>
+      </ul>
+    </div>
+    <div class="footer-col">
+      <h4>Contact</h4>
+      <ul>
+        <li><a href="https://wa.me/c/923145000994" target="_blank">WhatsApp Catalog</a></li>
+        <li><a href="https://www.facebook.com/share/1G3UdTqYN2/?mibextid=wwXIfr" target="_blank">Facebook Page</a></li>
+        <li><a href="#">Privacy Policy</a></li>
+      </ul>
+    </div>
+  </div>
+  <div class="footer-bottom">
+    <span>© 2025 ANMOL MOBILE. All rights reserved.</span>
+    <span>Made with ❤️ in Abbottabad, Pakistan</span>
+  </div>
+</footer>
+
+<!-- FLOATING ACTIONS -->
+<div class="floating-actions">
+  <a href="https://maps.app.goo.gl/Ze3NfcsVHbmyRHxB8?g_st=ic" target="_blank" class="fab fab-map" title="Visit Shop">📍</a>
+  <a href="https://wa.me/c/923145000994" target="_blank" class="fab fab-wa" title="WhatsApp">
+    <svg width="24" height="24" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+  </a>
+</div>
+
+<!-- PRODUCT MODAL -->
+<div class="modal-overlay" id="modalOverlay" onclick="closeModal(event)">
+  <div class="modal-wrap">
+    <button class="modal-close" onclick="closeModal(null, true)">✕</button>
+    <div class="modal" id="modal"></div>
+  </div>
+</div>
+
+<!-- CART DRAWER -->
+<div class="cart-drawer" id="cartDrawer">
+  <div class="cart-header">
+    <span class="cart-title">🛒 Your Cart</span>
+    <button class="icon-btn" onclick="toggleCart()">✕</button>
+  </div>
+  <div class="cart-items" id="cartItems"></div>
+  <div class="cart-footer" id="cartFooter"></div>
+</div>
+
+<!-- TOAST -->
+<div class="toast" id="toast"></div>
+
+<script>
+// ===== DATA =====
+const products = [
+  { id:1, name:'iPhone 15 Pro Max', brand:'Apple', category:'iphone', emoji:'📱', price:419999, oldPrice:449999, condition:'New', badge:'offer', specs:{Storage:'256GB', RAM:'8GB', Battery:'4422mAh', Camera:'48MP'}, colors:['#8e8e93','#1c1c1e','#d4a843'], desc:'The most powerful iPhone ever. Titanium design, A17 Pro chip, 48MP camera system.' },
+  { id:2, name:'iPhone 14 Pro', brand:'Apple', category:'iphone', emoji:'📱', price:329999, oldPrice:null, condition:'New', badge:'new', specs:{Storage:'128GB', RAM:'6GB', Battery:'3200mAh', Camera:'48MP'}, desc:'Dynamic Island, Always-On display, Photonic Engine.' },
+  { id:3, name:'Samsung Galaxy S24 Ultra', brand:'Samsung', category:'samsung', emoji:'📲', price:389999, oldPrice:419999, condition:'New', badge:'offer', specs:{Storage:'256GB', RAM:'12GB', Battery:'5000mAh', Camera:'200MP'}, desc:'The ultimate Galaxy with built-in S Pen and 200MP camera.' },
+  { id:4, name:'iPhone 13', brand:'Apple', category:'used', emoji:'📱', price:189999, oldPrice:229999, condition:'Used', badge:'used', specs:{Storage:'128GB', RAM:'4GB', Battery:'3227mAh', Camera:'12MP'}, desc:'Excellent condition. Fully tested with 90-day warranty.' },
+  { id:5, name:'Samsung Galaxy S23+', brand:'Samsung', category:'samsung', emoji:'📲', price:289999, oldPrice:null, condition:'New', badge:'new', specs:{Storage:'256GB', RAM:'8GB', Battery:'4700mAh', Camera:'50MP'}, desc:'Snapdragon 8 Gen 2, 45W fast charging, 120Hz display.' },
+  { id:6, name:'iPhone 12 Pro Max', brand:'Apple', category:'used', emoji:'📱', price:159999, oldPrice:189999, condition:'Used', badge:'offer', specs:{Storage:'256GB', RAM:'6GB', Battery:'3687mAh', Camera:'12MP'}, desc:'Grade A condition. Battery 89%. Full box available.' },
+  { id:7, name:'AirPods Pro 2nd Gen', brand:'Apple', category:'accessories', emoji:'🎧', price:49999, oldPrice:null, condition:'New', badge:'new', specs:{ANC:'Active Noise Cancellation', Battery:'30hrs', Connectivity:'Bluetooth 5.3', Water:'IPX4'}, desc:'Personalized Spatial Audio, Adaptive Transparency, MagSafe charging.' },
+  { id:8, name:'Samsung Galaxy A54', brand:'Samsung', category:'samsung', emoji:'📲', price:89999, oldPrice:99999, condition:'New', badge:'offer', specs:{Storage:'128GB', RAM:'6GB', Battery:'5000mAh', Camera:'50MP'}, desc:'50MP camera, 5000mAh battery, 5G ready.' },
+];
+
+let cart = [];
+let wishlist = [];
+let currentFilter = 'all';
+
+// ===== RENDER PRODUCTS =====
+function renderProducts(list) {
+  const grid = document.getElementById('productsGrid');
+  if (!list.length) {
+    grid.innerHTML = '<p style="color:var(--text3);padding:40px 0;grid-column:1/-1;text-align:center">No products found.</p>';
+    return;
+  }
+  grid.innerHTML = list.map(p => `
+    <div class="product-card fade-in" onclick="openModal(${p.id})">
+      <div class="product-img-wrap">
+        <span style="font-size:80px">${p.emoji}</span>
+        ${p.badge ? `<span class="product-badge badge-${p.badge}">${p.badge==='new'?'NEW':p.badge==='offer'?'SALE':'USED'}</span>` : ''}
+        <button class="wishlist-btn ${wishlist.includes(p.id)?'active':''}" onclick="toggleWishlist(event,${p.id})">
+          ${wishlist.includes(p.id)?'❤️':'🤍'}
+        </button>
+      </div>
+      <div class="product-info">
+        <div class="product-brand">${p.brand}</div>
+        <div class="product-name">${p.name}</div>
+        <div class="product-specs">${Object.entries(p.specs).slice(0,2).map(([k,v])=>`${k}: ${v}`).join(' · ')}</div>
+        <div class="product-footer">
+          <div class="product-price">
+            PKR ${p.price.toLocaleString()}
+            ${p.oldPrice ? `<span>PKR ${p.oldPrice.toLocaleString()}</span>` : ''}
+          </div>
+          <button class="add-cart-btn" onclick="addToCart(event,${p.id})">+</button>
+        </div>
+      </div>
+    </div>
+  `).join('');
+}
+
+// ===== FILTER =====
+function filterProducts(cat, btn) {
+  currentFilter = cat;
+  document.querySelectorAll('.filter-tab').forEach(t => t.classList.remove('active'));
+  if (btn) btn.classList.add('active');
+  const filtered = cat === 'all' ? products : products.filter(p => p.category === cat || p.badge === cat);
+  renderProducts(filtered);
+}
+
+// ===== SEARCH =====
+function handleSearch() {
+  const q = document.getElementById('searchInput').value.toLowerCase();
+  const filtered = products.filter(p =>
+    p.name.toLowerCase().includes(q) || p.brand.toLowerCase().includes(q)
+  );
+  renderProducts(filtered);
+}
+function toggleSearch() {
+  document.querySelector('.search-section').scrollIntoView({behavior:'smooth'});
+}
+
+// ===== MODAL =====
+function openModal(id) {
+  const p = products.find(x => x.id === id);
+  if (!p) return;
+  const modal = document.getElementById('modal');
+  modal.innerHTML = `
+    <div class="modal-inner">
+      <div class="modal-gallery">
+        <div class="modal-main-img">${p.emoji}</div>
+        <div class="modal-thumbs">
+          <div class="modal-thumb active">${p.emoji}</div>
+          <div class="modal-thumb" style="opacity:.5">${p.emoji}</div>
+          <div class="modal-thumb" style="opacity:.3">${p.emoji}</div>
+        </div>
+      </div>
+      <div class="modal-details">
+        <div class="modal-brand">${p.brand}</div>
+        <div class="modal-name">${p.name}</div>
+        <div class="modal-condition">
+          <span class="cond-dot" style="background:${p.condition==='New'?'var(--green)':'var(--gold)'}"></span>
+          ${p.condition} · In Stock
+        </div>
+        <div class="modal-price">PKR ${p.price.toLocaleString()}</div>
+        ${p.oldPrice ? `<div class="modal-price-old">PKR ${p.oldPrice.toLocaleString()} – Save PKR ${(p.oldPrice-p.price).toLocaleString()}</div>` : '<div style="margin-bottom:24px"></div>'}
+        <div class="specs-grid">
+          ${Object.entries(p.specs).map(([k,v]) => `
+            <div class="spec-item">
+              <div class="spec-label">${k}</div>
+              <div class="spec-value">${v}</div>
+            </div>
+          `).join('')}
+        </div>
+        <div style="font-size:14px;color:var(--text2);margin-bottom:24px;line-height:1.6">${p.desc}</div>
+        <div class="modal-actions">
+          <a href="https://wa.me/923145000994?text=Hi! I want to order: ${encodeURIComponent(p.name)} - PKR ${p.price.toLocaleString()}" target="_blank" class="btn-wa">
+            <svg width="18" height="18" viewBox="0 0 24 24" fill="white"><path d="M17.472 14.382c-.297-.149-1.758-.867-2.03-.967-.273-.099-.471-.148-.67.15-.197.297-.767.966-.94 1.164-.173.199-.347.223-.644.075-.297-.15-1.255-.463-2.39-1.475-.883-.788-1.48-1.761-1.653-2.059-.173-.297-.018-.458.13-.606.134-.133.298-.347.446-.52.149-.174.198-.298.298-.497.099-.198.05-.371-.025-.52-.075-.149-.669-1.612-.916-2.207-.242-.579-.487-.5-.669-.51-.173-.008-.371-.01-.57-.01-.198 0-.52.074-.792.372-.272.297-1.04 1.016-1.04 2.479 0 1.462 1.065 2.875 1.213 3.074.149.198 2.096 3.2 5.077 4.487.709.306 1.262.489 1.694.625.712.227 1.36.195 1.871.118.571-.085 1.758-.719 2.006-1.413.248-.694.248-1.289.173-1.413-.074-.124-.272-.198-.57-.347m-5.421 7.403h-.004a9.87 9.87 0 01-5.031-1.378l-.361-.214-3.741.982.998-3.648-.235-.374a9.86 9.86 0 01-1.51-5.26c.001-5.45 4.436-9.884 9.888-9.884 2.64 0 5.122 1.03 6.988 2.898a9.825 9.825 0 012.893 6.994c-.003 5.45-4.437 9.884-9.885 9.884m8.413-18.297A11.815 11.815 0 0012.05 0C5.495 0 .16 5.335.157 11.892c0 2.096.547 4.142 1.588 5.945L.057 24l6.305-1.654a11.882 11.882 0 005.683 1.448h.005c6.554 0 11.89-5.335 11.893-11.893a11.821 11.821 0 00-3.48-8.413z"/></svg>
+            Order via WhatsApp
+          </a>
+          <button class="btn-add" onclick="addToCart(null,${p.id});closeModal(null,true)">
+            🛒 Add to Cart
+          </button>
+        </div>
+      </div>
+    </div>
+  `;
+  document.getElementById('modalOverlay').classList.add('open');
+  document.body.style.overflow = 'hidden';
+}
+function closeModal(e, force) {
+  if (force || e.target === document.getElementById('modalOverlay')) {
+    document.getElementById('modalOverlay').classList.remove('open');
+    document.body.style.overflow = '';
+  }
+}
+
+// ===== CART =====
+function addToCart(e, id) {
+  if (e) e.stopPropagation();
+  const p = products.find(x => x.id === id);
+  const existing = cart.find(x => x.id === id);
+  if (existing) { existing.qty++; } else { cart.push({...p, qty: 1}); }
+  updateCart();
+  showToast(`${p.name} added to cart`);
+}
+function removeFromCart(id) {
+  cart = cart.filter(x => x.id !== id);
+  updateCart();
+}
+function updateCart() {
+  const count = cart.reduce((a,b) => a + b.qty, 0);
+  document.getElementById('cartCount').textContent = count;
+  renderCart();
+}
+function renderCart() {
+  const items = document.getElementById('cartItems');
+  const footer = document.getElementById('cartFooter');
+  if (!cart.length) {
+    items.innerHTML = '<div class="cart-empty"><div class="cart-empty-icon">🛒</div><p>Your cart is empty</p></div>';
+    footer.innerHTML = '';
+    return;
+  }
+  items.innerHTML = cart.map(item => `
+    <div class="cart-item">
+      <div class="cart-item-img">${item.emoji}</div>
+      <div style="flex:1">
+        <div class="cart-item-name">${item.name}</div>
+        <div class="cart-item-price">PKR ${item.price.toLocaleString()}</div>
+        <div style="font-size:12px;color:var(--text3)">Qty: ${item.qty}</div>
+      </div>
+      <button class="cart-remove" onclick="removeFromCart(${item.id})">✕</button>
+    </div>
+  `).join('');
+  const total = cart.reduce((a,b) => a + b.price * b.qty, 0);
+  const items_text = cart.map(i => `${i.name} x${i.qty}`).join(', ');
+  footer.innerHTML = `
+    <div class="cart-total"><span>Total</span><span>PKR ${total.toLocaleString()}</span></div>
+    <a href="https://wa.me/923145000994?text=Hi! I want to order: ${encodeURIComponent(items_text)}. Total: PKR ${total.toLocaleString()}"
+       target="_blank" class="btn-wa" style="display:flex;align-items:center;justify-content:center;gap:8px;border-radius:14px;padding:14px;font-weight:600;font-size:15px">
+      💬 Order via WhatsApp
+    </a>
+  `;
+}
+function toggleCart() {
+  document.getElementById('cartDrawer').classList.toggle('open');
+}
+
+// ===== WISHLIST =====
+function toggleWishlist(e, id) {
+  e.stopPropagation();
+  if (wishlist.includes(id)) {
+    wishlist = wishlist.filter(x => x !== id);
+    showToast('Removed from wishlist');
+  } else {
+    wishlist.push(id);
+    showToast('Added to wishlist ❤️');
+  }
+  filterProducts(currentFilter);
+}
+
+// ===== THEME =====
+function toggleTheme() {
+  const html = document.documentElement;
+  const isDark = html.getAttribute('data-theme') === 'dark';
+  html.setAttribute('data-theme', isDark ? 'light' : 'dark');
+  document.querySelector('.icon-btn[title="Toggle theme"]').textContent = isDark ? '🌙' : '☀️';
+}
+
+// ===== TOAST =====
+function showToast(msg) {
+  const t = document.getElementById('toast');
+  t.textContent = msg;
+  t.classList.add('show');
+  setTimeout(() => t.classList.remove('show'), 2500);
+}
+
+// ===== INIT =====
+renderProducts(products);
+</script>
+</body>
+</html>

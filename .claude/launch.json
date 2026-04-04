@@ -1,0 +1,23 @@
+{
+  "version": "0.0.1",
+  "configurations": [
+    {
+      "name": "Anmol Mobile",
+      "runtimeExecutable": "python3",
+      "runtimeArgs": ["-m", "http.server", "3000", "--directory", "/Users/usmaniii/app backup data"],
+      "port": 3000
+    },
+    {
+      "name": "Quotex Signal Bot (Demo)",
+      "runtimeExecutable": "/Users/usmaniii/fxbot/venv/bin/streamlit",
+      "runtimeArgs": ["run", "/Users/usmaniii/ai_market_bot.py", "--server.port", "8501"],
+      "port": 8501
+    },
+    {
+      "name": "Advanced AI Signal Bot (FX/Crypto)",
+      "runtimeExecutable": "/Users/usmaniii/fxbot/venv/bin/streamlit",
+      "runtimeArgs": ["run", "/Users/usmaniii/fxbot/ai_signal_bot_av.py", "--server.port", "8502"],
+      "port": 8502
+    }
+  ]
+}
