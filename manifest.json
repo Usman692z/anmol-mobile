@@ -1,0 +1,39 @@
+{
+  "name": "Anmol Mobile — Abbottabad",
+  "short_name": "Anmol Mobile",
+  "description": "Premium mobile phone store in Abbottabad, Pakistan. iPhones, Samsung, Accessories.",
+  "start_url": "/",
+  "scope": "/",
+  "display": "standalone",
+  "background_color": "#0a0a0a",
+  "theme_color": "#d4a843",
+  "orientation": "portrait-primary",
+  "categories": ["shopping", "lifestyle"],
+  "lang": "en",
+  "icons": [
+    {
+      "src": "icon.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "any"
+    },
+    {
+      "src": "icon-maskable.svg",
+      "sizes": "any",
+      "type": "image/svg+xml",
+      "purpose": "maskable"
+    }
+  ],
+  "shortcuts": [
+    {
+      "name": "Shop iPhones",
+      "url": "/?cat=iphone",
+      "description": "Browse iPhone collection"
+    },
+    {
+      "name": "WhatsApp Us",
+      "url": "https://wa.me/923145000994",
+      "description": "Contact on WhatsApp"
+    }
+  ]
+}
