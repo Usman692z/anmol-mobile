@@ -1030,7 +1030,7 @@ let products = [...FALLBACK_PRODUCTS];
 async function loadProductsFromDB() {
   if (!SUPABASE_CONFIGURED) return;
   try {
-    const { data, error } = await supabaseClient.from('products').select('*').eq('active', true);
+    const { data, error } = await supabaseClient.from('products').select('*');
     if (error) throw error;
     if (data && data.length) {
       products = data.map(dbRowToProduct);

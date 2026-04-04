@@ -1044,7 +1044,7 @@ async function loadDashboard() {
   if (!SUPABASE_CONFIGURED) return;
   try {
     const [{ data: prods }, { data: orders }] = await Promise.all([
-      sb.from('products').select('*'),
+      sb.from('products').select('*').order('id'),
       sb.from('orders').select('*')
     ]);
     if (prods) products = prods;
