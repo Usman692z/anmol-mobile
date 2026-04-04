@@ -1162,8 +1162,7 @@ async function saveProduct() {
     ram:         document.getElementById('f-ram').value || null,
     camera:      document.getElementById('f-camera').value || null,
     battery:     document.getElementById('f-battery').value || null,
-    description: document.getElementById('f-desc').value || null,
-    image_url:   document.getElementById('f-image-url').value || null
+    description: document.getElementById('f-desc').value || null
   };
   if (SUPABASE_CONFIGURED) {
     if (editingId) {
