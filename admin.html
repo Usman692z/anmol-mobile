@@ -1163,8 +1163,7 @@ async function saveProduct() {
     camera:      document.getElementById('f-camera').value || null,
     battery:     document.getElementById('f-battery').value || null,
     description: document.getElementById('f-desc').value || null,
-    image_url:   document.getElementById('f-image-url').value || null,
-    active:      true
+    image_url:   document.getElementById('f-image-url').value || null
   };
   if (SUPABASE_CONFIGURED) {
     if (editingId) {
