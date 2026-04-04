@@ -14,8 +14,6 @@
 //
 // ================================================================
 
-const SUPABASE_URL      = 'YOUR_SUPABASE_URL';
-// e.g. 'https://abcdefgh.supabase.co'
+const SUPABASE_URL      = 'https://avvjbojbzomiqrodviyy.supabase.co';
 
-const SUPABASE_ANON_KEY = 'YOUR_ANON_KEY';
-// e.g. 'eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9...'
+const SUPABASE_ANON_KEY = 'sb_publishable_UX_vNn_4lrwN5596pS6bUw_v4Strz7b';
