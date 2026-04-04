@@ -974,11 +974,20 @@ tr:hover td{background:var(--bg3);color:var(--text)}
         </div>
         <div class="form-group full">
           <label class="form-label">Product Image</label>
-          <div class="upload-area" onclick="showToast('Image upload ready','📷')">
-            <div class="icon">📷</div>
-            <p>Click to upload image</p>
+          <div class="upload-area" onclick="document.getElementById('imageFileInput').click()" id="uploadArea">
+            <div class="icon" id="uploadIcon">📷</div>
+            <p id="uploadText">Click to upload image</p>
             <p style="font-size:11px;margin-top:4px">PNG, JPG up to 5MB</p>
+            <img id="imagePreview" src="" alt="" style="display:none;max-width:100%;max-height:160px;margin-top:12px;border-radius:10px;object-fit:cover;">
           </div>
+          <input type="file" id="imageFileInput" accept="image/*" style="display:none" onchange="handleImageSelect(this)">
+          <div id="uploadProgress" style="display:none;margin-top:8px;">
+            <div style="background:var(--border);border-radius:4px;height:4px;overflow:hidden;">
+              <div id="uploadBar" style="height:100%;background:var(--gold);width:0%;transition:width 0.3s;border-radius:4px;"></div>
+            </div>
+            <p style="font-size:11px;color:var(--text3);margin-top:4px;" id="uploadStatus">Uploading...</p>
+          </div>
+          <input type="hidden" id="f-image-url" value="">
         </div>
       </div>
     </div>
@@ -1154,6 +1163,7 @@ async function saveProduct() {
     camera:      document.getElementById('f-camera').value || null,
     battery:     document.getElementById('f-battery').value || null,
     description: document.getElementById('f-desc').value || null,
+    image_url:   document.getElementById('f-image-url').value || null,
     active:      true
   };
   if (SUPABASE_CONFIGURED) {
@@ -1234,18 +1244,79 @@ async function loadCustomers() {
   } catch(e) { console.warn(e); }
 }
 
+// ===== IMAGE UPLOAD =====
+function handleImageSelect(input) {
+  const file = input.files[0];
+  if (!file) return;
+  if (file.size > 5 * 1024 * 1024) { showToast('Image must be under 5MB', '⚠️'); return; }
+
+  // Show local preview instantly
+  const reader = new FileReader();
+  reader.onload = e => {
+    document.getElementById('imagePreview').src = e.target.result;
+    document.getElementById('imagePreview').style.display = 'block';
+    document.getElementById('uploadIcon').style.display = 'none';
+    document.getElementById('uploadText').textContent = file.name;
+  };
+  reader.readAsDataURL(file);
+
+  // Upload to Supabase Storage if configured
+  if (SUPABASE_CONFIGURED) {
+    uploadToSupabase(file);
+  } else {
+    // Use base64 as fallback (demo mode)
+    const reader2 = new FileReader();
+    reader2.onload = e => { document.getElementById('f-image-url').value = e.target.result; };
+    reader2.readAsDataURL(file);
+    showToast('Image ready (demo mode)', '✅');
+  }
+}
+
+async function uploadToSupabase(file) {
+  const progress = document.getElementById('uploadProgress');
+  const bar = document.getElementById('uploadBar');
+  const status = document.getElementById('uploadStatus');
+  progress.style.display = 'block';
+  bar.style.width = '30%';
+  status.textContent = 'Uploading...';
+
+  try {
+    const ext = file.name.split('.').pop();
+    const fileName = `product-${Date.now()}.${ext}`;
+    const { data, error } = await sb.storage.from('products').upload(fileName, file, {
+      cacheControl: '3600', upsert: false, contentType: file.type
+    });
+    if (error) throw error;
+    bar.style.width = '100%';
+    status.textContent = 'Upload complete!';
+    const { data: urlData } = sb.storage.from('products').getPublicUrl(fileName);
+    document.getElementById('f-image-url').value = urlData.publicUrl;
+    showToast('Image uploaded!', '✅');
+    setTimeout(() => { progress.style.display = 'none'; }, 2000);
+  } catch(e) {
+    bar.style.width = '0%';
+    status.textContent = 'Upload failed: ' + e.message;
+    showToast('Upload failed — check Supabase Storage bucket', '❌');
+  }
+}
+
 // ===== MODAL =====
 function openProductModal() {
   document.getElementById('productModal').classList.add('open');
 }
 function closeProductModal() {
   document.getElementById('productModal').classList.remove('open');
-  ['f-name','f-price','f-oldprice','f-desc','f-storage','f-ram','f-camera','f-battery'].forEach(id => {
+  ['f-name','f-price','f-oldprice','f-desc','f-storage','f-ram','f-camera','f-battery','f-image-url'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.value = '';
   });
   document.getElementById('f-icon').value = '📱';
   document.getElementById('productModalTitle').textContent = 'Add New Product';
+  document.getElementById('imagePreview').style.display = 'none';
+  document.getElementById('uploadIcon').style.display = 'block';
+  document.getElementById('uploadText').textContent = 'Click to upload image';
+  document.getElementById('uploadProgress').style.display = 'none';
+  document.getElementById('imageFileInput').value = '';
   editingId = null;
 }
 document.getElementById('productModal').addEventListener('click', e => {
