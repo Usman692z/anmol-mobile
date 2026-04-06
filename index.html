@@ -314,65 +314,78 @@ body{
 /* ===== PRODUCTS ===== */
 .products-section{padding:80px 5%}
 .products-grid{
-  display:grid;grid-template-columns:repeat(auto-fill,minmax(260px,1fr));
-  gap:20px;max-width:1200px;margin:0 auto;
+  display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));
+  gap:16px;max-width:1280px;margin:0 auto;
 }
 .product-card{
-  background:var(--card);border:1px solid var(--border);border-radius:20px;
+  background:var(--card);border:1px solid var(--border);border-radius:12px;
   overflow:hidden;transition:all var(--transition);cursor:pointer;
-  position:relative;
+  position:relative;display:flex;flex-direction:column;
 }
 .product-card:hover{
-  transform:translateY(-6px);border-color:rgba(212,168,67,0.4);
-  box-shadow:0 20px 60px rgba(0,0,0,0.3);
+  transform:translateY(-4px);border-color:rgba(212,168,67,0.5);
+  box-shadow:0 12px 40px rgba(0,0,0,0.35);
 }
 .product-img{
-  height:200px;display:flex;align-items:center;justify-content:center;
-  background:var(--bg3);position:relative;overflow:hidden;
+  height:210px;display:flex;align-items:center;justify-content:center;
+  background:#fff;position:relative;overflow:hidden;padding:12px;
   font-size:72px;
 }
-.product-img-bg{
-  position:absolute;inset:0;
-  background:radial-gradient(circle at center,rgba(212,168,67,0.08) 0%,transparent 70%);
+.product-img img{object-fit:contain!important;padding:8px}
+.product-img-bg{display:none}
+/* Discount % badge — top left red circle like noon */
+.product-disc-badge{
+  position:absolute;top:10px;left:10px;
+  background:#e53935;color:#fff;font-size:11px;font-weight:700;
+  border-radius:4px;padding:3px 7px;letter-spacing:0.3px;
+  display:none;
 }
-.product-badge{
-  position:absolute;top:12px;left:12px;
-  padding:4px 12px;border-radius:100px;font-size:11px;font-weight:700;
-  letter-spacing:0.5px;text-transform:uppercase;
-}
-.badge-new{background:#1a3a1a;color:#4ade80;border:1px solid #2a5a2a}
-.badge-sale{background:#3a1a0a;color:var(--gold);border:1px solid #5a2a0a}
-.badge-used{background:#1a1a3a;color:#818cf8;border:1px solid #2a2a5a}
+.product-disc-badge.show{display:block}
 .wishlist-btn{
-  position:absolute;top:12px;right:12px;
-  width:34px;height:34px;border-radius:50%;
-  background:rgba(0,0,0,0.5);border:1px solid var(--border);
-  color:var(--text3);font-size:16px;cursor:pointer;
+  position:absolute;top:10px;right:10px;
+  width:32px;height:32px;border-radius:50%;
+  background:rgba(255,255,255,0.9);border:1px solid #ddd;
+  color:#aaa;font-size:16px;cursor:pointer;
   display:flex;align-items:center;justify-content:center;
-  transition:all var(--transition);
+  transition:all var(--transition);box-shadow:0 2px 6px rgba(0,0,0,0.15);
 }
-.wishlist-btn:hover,.wishlist-btn.active{color:#ef4444;border-color:#ef4444;background:rgba(239,68,68,0.1)}
-.product-info{padding:20px}
-.product-brand{font-size:11px;color:var(--gold);font-weight:600;text-transform:uppercase;letter-spacing:1px;margin-bottom:6px}
-.product-name{font-family:'Syne',sans-serif;font-size:16px;font-weight:700;margin-bottom:8px;line-height:1.3}
-.product-specs{font-size:12px;color:var(--text3);margin-bottom:14px;line-height:1.6}
-.product-price-row{display:flex;align-items:center;gap:10px;margin-bottom:16px}
-.product-price{font-family:'Syne',sans-serif;font-size:18px;font-weight:700;color:var(--gold)}
-.product-oldprice{font-size:13px;color:var(--text3);text-decoration:line-through}
-.product-actions{display:flex;gap:8px}
+.wishlist-btn:hover,.wishlist-btn.active{color:#ef4444;border-color:#ef4444}
+.product-info{padding:14px 14px 16px;display:flex;flex-direction:column;flex:1}
+.product-brand{
+  font-size:10px;color:var(--text3);font-weight:600;text-transform:uppercase;
+  letter-spacing:1px;margin-bottom:4px;
+}
+.product-name{
+  font-size:13px;font-weight:600;margin-bottom:6px;line-height:1.4;
+  color:var(--text);display:-webkit-box;-webkit-line-clamp:2;
+  -webkit-box-orient:vertical;overflow:hidden;min-height:36px;
+}
+.product-specs{font-size:11px;color:var(--text3);margin-bottom:10px;line-height:1.5}
+/* Star rating */
+.product-rating{display:flex;align-items:center;gap:5px;margin-bottom:10px}
+.stars{color:#f5a623;font-size:13px;letter-spacing:1px}
+.rating-count{font-size:11px;color:var(--text3)}
+/* Price block */
+.product-price-block{margin-bottom:12px}
+.product-oldprice{font-size:12px;color:var(--text3);text-decoration:line-through;margin-bottom:2px}
+.product-price{font-size:17px;font-weight:700;color:var(--gold);font-family:'Syne',sans-serif}
+.product-save{font-size:11px;color:#4ade80;margin-top:2px}
+/* Buttons */
+.product-actions{display:flex;flex-direction:column;gap:7px;margin-top:auto}
+.btn-cart{
+  width:100%;padding:11px;background:var(--gold);
+  border:none;border-radius:8px;color:#000;
+  font-size:13px;font-weight:700;cursor:pointer;
+  transition:all var(--transition);letter-spacing:0.3px;
+}
+.btn-cart:hover{background:var(--gold-light)}
 .btn-view{
-  flex:1;padding:10px;background:rgba(212,168,67,0.1);
-  border:1px solid rgba(212,168,67,0.3);border-radius:10px;
-  color:var(--gold);font-size:13px;font-weight:600;
+  width:100%;padding:9px;background:transparent;
+  border:1px solid var(--border);border-radius:8px;
+  color:var(--text3);font-size:12px;font-weight:500;
   cursor:pointer;transition:all var(--transition);
 }
-.btn-view:hover{background:rgba(212,168,67,0.2)}
-.btn-cart{
-  padding:10px 14px;background:var(--gold);
-  border:none;border-radius:10px;color:#000;
-  font-size:16px;cursor:pointer;transition:all var(--transition);
-}
-.btn-cart:hover{background:var(--gold-light);transform:scale(1.05)}
+.btn-view:hover{border-color:var(--gold);color:var(--gold)}
 
 /* ===== MODAL ===== */
 .modal-overlay{
@@ -612,7 +625,7 @@ body{
   .footer-grid{grid-template-columns:1fr 1fr}
   .hero-title{font-size:42px}
   .stats-grid{grid-template-columns:repeat(2,1fr)}
-  .products-grid{grid-template-columns:repeat(auto-fill,minmax(200px,1fr))}
+  .products-grid{grid-template-columns:repeat(2,1fr);gap:12px}
   .specs-grid{grid-template-columns:1fr 1fr}
   .modal{margin:10px}
 }
@@ -1066,29 +1079,39 @@ function renderProducts(filtered) {
     grid.innerHTML = '<div style="grid-column:1/-1;text-align:center;padding:60px;color:var(--text3)"><div style="font-size:48px;margin-bottom:16px">🔍</div><p>No products found. Try a different search.</p></div>';
     return;
   }
-  grid.innerHTML = filtered.map(p => `
+  grid.innerHTML = filtered.map(p => {
+    const disc = p.oldPrice ? Math.round((1 - p.price / p.oldPrice) * 100) : 0;
+    const save = p.oldPrice ? p.oldPrice - p.price : 0;
+    const specs = Object.entries(p.specs).slice(0,2).map(([k,v])=>`${k}: ${v}`).join(' · ');
+    return `
     <div class="product-card" onclick="openModal('${p.id}')">
       <div class="product-img" style="${p.image_url ? 'font-size:0' : ''}">
-        <div class="product-img-bg"></div>
-        ${p.image_url ? `<img src="${p.image_url}" alt="${p.name}" style="width:100%;height:100%;object-fit:cover;position:absolute;inset:0;">` : p.icon}
-        <div class="product-badge badge-${p.badge}">${p.badge.toUpperCase()}</div>
+        ${p.image_url
+          ? `<img src="${p.image_url}" alt="${p.name}" style="width:100%;height:100%;position:absolute;inset:0;">`
+          : `<span style="font-size:64px">${p.icon}</span>`}
+        <div class="product-disc-badge ${disc > 0 ? 'show' : ''}">${disc}% OFF</div>
         <button class="wishlist-btn" onclick="event.stopPropagation();toggleWishlist(this)" title="Wishlist">♡</button>
       </div>
       <div class="product-info">
         <div class="product-brand">${p.brand}</div>
         <div class="product-name">${p.name}</div>
-        <div class="product-specs">${Object.entries(p.specs).slice(0,2).map(([k,v])=>`${k}: ${v}`).join(' · ')}</div>
-        <div class="product-price-row">
-          <span class="product-price">PKR ${p.price.toLocaleString()}</span>
-          ${p.oldPrice ? `<span class="product-oldprice">PKR ${p.oldPrice.toLocaleString()}</span>` : ''}
+        ${specs ? `<div class="product-specs">${specs}</div>` : ''}
+        <div class="product-rating">
+          <span class="stars">★★★★★</span>
+          <span class="rating-count">(${Math.floor(Math.random()*200+20)})</span>
+        </div>
+        <div class="product-price-block">
+          ${p.oldPrice ? `<div class="product-oldprice">PKR ${p.oldPrice.toLocaleString()}</div>` : ''}
+          <div class="product-price">PKR ${p.price.toLocaleString()}</div>
+          ${save > 0 ? `<div class="product-save">You save PKR ${save.toLocaleString()}</div>` : ''}
         </div>
         <div class="product-actions">
+          <button class="btn-cart" onclick="event.stopPropagation();addToCart('${p.id}')">Add to Cart</button>
           <button class="btn-view" onclick="event.stopPropagation();openModal('${p.id}')">View Details</button>
-          <button class="btn-cart" onclick="event.stopPropagation();addToCart('${p.id}')" title="Add to cart">🛒</button>
         </div>
       </div>
-    </div>
-  `).join('');
+    </div>`;
+  }).join('');
 }
 
 function filterProducts(cat, btn) {
