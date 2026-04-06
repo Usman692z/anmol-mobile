@@ -1066,7 +1066,7 @@ function renderProducts(filtered) {
     return;
   }
   grid.innerHTML = filtered.map(p => `
-    <div class="product-card" onclick="openModal(${p.id})">
+    <div class="product-card" onclick="openModal('${p.id}')">
       <div class="product-img">
         <div class="product-img-bg"></div>
         ${p.icon}
@@ -1082,8 +1082,8 @@ function renderProducts(filtered) {
           ${p.oldPrice ? `<span class="product-oldprice">PKR ${p.oldPrice.toLocaleString()}</span>` : ''}
         </div>
         <div class="product-actions">
-          <button class="btn-view" onclick="event.stopPropagation();openModal(${p.id})">View Details</button>
-          <button class="btn-cart" onclick="event.stopPropagation();addToCart(${p.id})" title="Add to cart">🛒</button>
+          <button class="btn-view" onclick="event.stopPropagation();openModal('${p.id}')">View Details</button>
+          <button class="btn-cart" onclick="event.stopPropagation();addToCart('${p.id}')" title="Add to cart">🛒</button>
         </div>
       </div>
     </div>
@@ -1129,7 +1129,7 @@ function applyFilters() {
 
 // ===== MODAL =====
 function openModal(id) {
-  const p = products.find(x => x.id === id);
+  const p = products.find(x => String(x.id) === String(id));
   if(!p) return;
   modalCurrentProduct = p;
   document.getElementById('modalImg').textContent = p.icon;
@@ -1160,8 +1160,8 @@ document.getElementById('productModal').addEventListener('click', e => {
 
 // ===== CART =====
 function addToCart(id) {
-  const p = products.find(x => x.id === id);
-  const existing = cart.find(x => x.id === id);
+  const p = products.find(x => String(x.id) === String(id));
+  const existing = cart.find(x => String(x.id) === String(id));
   if(existing) {
     showToast('Already in cart!', '🛒');
     return;
