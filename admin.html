@@ -994,21 +994,23 @@ tr:hover td{background:var(--bg3);color:var(--text)}
           <textarea class="form-textarea" id="f-desc" placeholder="Enter product description..."></textarea>
         </div>
         <div class="form-group full">
-          <label class="form-label">Product Image</label>
-          <label for="imageFileInput" class="upload-area" id="uploadArea" style="cursor:pointer;display:block;">
-            <div class="icon" id="uploadIcon">📷</div>
-            <p id="uploadText">Click to upload image</p>
-            <p style="font-size:11px;margin-top:4px">PNG, JPG up to 5MB</p>
-            <img id="imagePreview" src="" alt="" style="display:none;max-width:100%;max-height:160px;margin-top:12px;border-radius:10px;object-fit:cover;">
+          <label class="form-label">Product Photos</label>
+          <!-- Photo grid -->
+          <div id="photoGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:10px;margin-bottom:10px;"></div>
+          <!-- Upload button -->
+          <label for="imageFileInput" style="cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border:2px dashed var(--border);border-radius:10px;color:var(--text3);font-size:13px;transition:all 0.3s;" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text3)'">
+            <span style="font-size:20px">📷</span> Add Photo (tap to pick from gallery)
           </label>
-          <input type="file" id="imageFileInput" accept="image/*" capture="environment" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;" onchange="handleImageSelect(this)">
+          <input type="file" id="imageFileInput" accept="image/*" multiple style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;" onchange="handleImageSelect(this)">
           <div id="uploadProgress" style="display:none;margin-top:8px;">
             <div style="background:var(--border);border-radius:4px;height:4px;overflow:hidden;">
               <div id="uploadBar" style="height:100%;background:var(--gold);width:0%;transition:width 0.3s;border-radius:4px;"></div>
             </div>
             <p style="font-size:11px;color:var(--text3);margin-top:4px;" id="uploadStatus">Uploading...</p>
           </div>
+          <p style="font-size:11px;color:var(--text3);margin-top:6px;">⭐ Tap a photo to set it as the <b>main cover photo</b> — shown first to customers</p>
           <input type="hidden" id="f-image-url" value="">
+          <input type="hidden" id="f-images-all" value="[]">
         </div>
       </div>
     </div>
@@ -1264,58 +1266,91 @@ async function loadCustomers() {
 }
 
 // ===== IMAGE UPLOAD =====
-function handleImageSelect(input) {
-  const file = input.files[0];
-  if (!file) return;
-  if (file.size > 5 * 1024 * 1024) { showToast('Image must be under 5MB', '⚠️'); return; }
+let uploadedPhotos = []; // [{url, isMain}]
 
-  // Show local preview instantly
-  const reader = new FileReader();
-  reader.onload = e => {
-    document.getElementById('imagePreview').src = e.target.result;
-    document.getElementById('imagePreview').style.display = 'block';
-    document.getElementById('uploadIcon').style.display = 'none';
-    document.getElementById('uploadText').textContent = file.name;
-  };
-  reader.readAsDataURL(file);
-
-  // Upload to Supabase Storage if configured
-  if (SUPABASE_CONFIGURED) {
-    uploadToSupabase(file);
-  } else {
-    // Use base64 as fallback (demo mode)
-    const reader2 = new FileReader();
-    reader2.onload = e => { document.getElementById('f-image-url').value = e.target.result; };
-    reader2.readAsDataURL(file);
-    showToast('Image ready (demo mode)', '✅');
-  }
+function renderPhotoGrid() {
+  const grid = document.getElementById('photoGrid');
+  if (!uploadedPhotos.length) { grid.innerHTML = ''; return; }
+  grid.innerHTML = uploadedPhotos.map((p, i) => `
+    <div style="position:relative;border-radius:10px;overflow:hidden;border:3px solid ${p.isMain ? 'var(--gold)' : 'var(--border)'};cursor:pointer;aspect-ratio:1;" onclick="setMainPhoto(${i})" title="Tap to set as main photo">
+      <img src="${p.url}" style="width:100%;height:100%;object-fit:cover;">
+      ${p.isMain ? `<div style="position:absolute;bottom:0;left:0;right:0;background:var(--gold);color:#000;font-size:10px;font-weight:700;text-align:center;padding:2px;">⭐ MAIN</div>` : ''}
+      <button onclick="event.stopPropagation();removePhoto(${i})" style="position:absolute;top:4px;right:4px;background:rgba(0,0,0,0.7);border:none;color:#fff;width:20px;height:20px;border-radius:50%;cursor:pointer;font-size:12px;display:flex;align-items:center;justify-content:center;">✕</button>
+    </div>
+  `).join('');
 }
 
-async function uploadToSupabase(file) {
+function setMainPhoto(idx) {
+  uploadedPhotos.forEach((p, i) => p.isMain = i === idx);
+  document.getElementById('f-image-url').value = uploadedPhotos[idx].url;
+  document.getElementById('f-images-all').value = JSON.stringify(uploadedPhotos.map(p => p.url));
+  renderPhotoGrid();
+  showToast('Main photo set!', '⭐');
+}
+
+function removePhoto(idx) {
+  uploadedPhotos.splice(idx, 1);
+  if (uploadedPhotos.length && !uploadedPhotos.some(p => p.isMain)) {
+    uploadedPhotos[0].isMain = true;
+    document.getElementById('f-image-url').value = uploadedPhotos[0].url;
+  }
+  if (!uploadedPhotos.length) document.getElementById('f-image-url').value = '';
+  document.getElementById('f-images-all').value = JSON.stringify(uploadedPhotos.map(p => p.url));
+  renderPhotoGrid();
+}
+
+function handleImageSelect(input) {
+  const files = Array.from(input.files);
+  if (!files.length) return;
+  files.forEach(file => {
+    if (file.size > 5 * 1024 * 1024) { showToast(`${file.name} is over 5MB`, '⚠️'); return; }
+    // Show instant local preview
+    const reader = new FileReader();
+    reader.onload = e => {
+      const isFirst = uploadedPhotos.length === 0;
+      uploadedPhotos.push({ url: e.target.result, isMain: isFirst });
+      if (isFirst) document.getElementById('f-image-url').value = e.target.result;
+      document.getElementById('f-images-all').value = JSON.stringify(uploadedPhotos.map(p => p.url));
+      renderPhotoGrid();
+      // Upload to Supabase in background
+      if (SUPABASE_CONFIGURED) uploadToSupabase(file, uploadedPhotos.length - 1);
+    };
+    reader.readAsDataURL(file);
+  });
+  input.value = '';
+}
+
+async function uploadToSupabase(file, photoIdx) {
   const progress = document.getElementById('uploadProgress');
   const bar = document.getElementById('uploadBar');
   const status = document.getElementById('uploadStatus');
   progress.style.display = 'block';
   bar.style.width = '30%';
-  status.textContent = 'Uploading...';
-
+  status.textContent = `Uploading ${file.name}...`;
   try {
     const ext = file.name.split('.').pop();
-    const fileName = `product-${Date.now()}.${ext}`;
-    const { data, error } = await sb.storage.from('products').upload(fileName, file, {
+    const fileName = `product-${Date.now()}-${Math.random().toString(36).slice(2)}.${ext}`;
+    const { error } = await sb.storage.from('products').upload(fileName, file, {
       cacheControl: '3600', upsert: false, contentType: file.type
     });
     if (error) throw error;
+    const { data: urlData } = sb.storage.from('products').getPublicUrl(fileName);
+    const cloudUrl = urlData.publicUrl;
+    // Replace base64 with cloud URL
+    if (uploadedPhotos[photoIdx]) {
+      uploadedPhotos[photoIdx].url = cloudUrl;
+      if (uploadedPhotos[photoIdx].isMain) document.getElementById('f-image-url').value = cloudUrl;
+      document.getElementById('f-images-all').value = JSON.stringify(uploadedPhotos.map(p => p.url));
+      renderPhotoGrid();
+    }
     bar.style.width = '100%';
     status.textContent = 'Upload complete!';
-    const { data: urlData } = sb.storage.from('products').getPublicUrl(fileName);
-    document.getElementById('f-image-url').value = urlData.publicUrl;
-    showToast('Image uploaded!', '✅');
-    setTimeout(() => { progress.style.display = 'none'; }, 2000);
+    showToast('Photo uploaded!', '✅');
+    setTimeout(() => { progress.style.display = 'none'; bar.style.width = '0%'; }, 2000);
   } catch(e) {
     bar.style.width = '0%';
     status.textContent = 'Upload failed: ' + e.message;
-    showToast('Upload failed — check Supabase Storage bucket', '❌');
+    showToast('Upload failed — create "products" bucket in Supabase Storage', '❌');
   }
 }
 
@@ -1331,11 +1366,10 @@ function closeProductModal() {
   });
   document.getElementById('f-icon').value = '📱';
   document.getElementById('productModalTitle').textContent = 'Add New Product';
-  document.getElementById('imagePreview').style.display = 'none';
-  document.getElementById('uploadIcon').style.display = 'block';
-  document.getElementById('uploadText').textContent = 'Click to upload image';
   document.getElementById('uploadProgress').style.display = 'none';
   document.getElementById('imageFileInput').value = '';
+  uploadedPhotos = [];
+  renderPhotoGrid();
   editingId = null;
 }
 document.getElementById('productModal').addEventListener('click', e => {
