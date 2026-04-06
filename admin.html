@@ -1155,6 +1155,13 @@ function editProduct(id) {
   document.getElementById('f-camera').value    = p.camera || '';
   document.getElementById('f-battery').value   = p.battery || '';
   document.getElementById('f-desc').value      = p.description || '';
+  // Load existing image
+  uploadedPhotos = [];
+  if (p.image_url) {
+    uploadedPhotos.push({ url: p.image_url, isMain: true });
+    document.getElementById('f-image-url').value = p.image_url;
+  }
+  renderPhotoGrid();
   openProductModal();
 }
 
@@ -1185,7 +1192,8 @@ async function saveProduct() {
     ram:         document.getElementById('f-ram').value || null,
     camera:      document.getElementById('f-camera').value || null,
     battery:     document.getElementById('f-battery').value || null,
-    description: document.getElementById('f-desc').value || null
+    description: document.getElementById('f-desc').value || null,
+    image_url:   document.getElementById('f-image-url').value || null
   };
   if (SUPABASE_CONFIGURED) {
     if (editingId) {
@@ -1360,11 +1368,13 @@ function openProductModal() {
 }
 function closeProductModal() {
   document.getElementById('productModal').classList.remove('open');
-  ['f-name','f-price','f-oldprice','f-desc','f-storage','f-ram','f-camera','f-battery','f-image-url'].forEach(id => {
+  ['f-name','f-price','f-oldprice','f-desc','f-storage','f-ram','f-camera','f-battery','f-image-url','f-images-all','f-brand','f-category'].forEach(id => {
     const el = document.getElementById(id);
     if (el) el.value = '';
   });
   document.getElementById('f-icon').value = '📱';
+  document.getElementById('f-badge').value = 'new';
+  document.getElementById('f-condition').value = 'New';
   document.getElementById('productModalTitle').textContent = 'Add New Product';
   document.getElementById('uploadProgress').style.display = 'none';
   document.getElementById('imageFileInput').value = '';
