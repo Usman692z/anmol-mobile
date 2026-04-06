@@ -1154,8 +1154,8 @@ function renderProductsTable() {
       <td><span class="badge badge-${p.badge}">${(p.badge||'').toUpperCase()}</span></td>
       <td>
         <div class="action-btns">
-          <button class="action-btn btn-edit" onclick="editProduct(${p.id})">Edit</button>
-          <button class="action-btn btn-del"  onclick="deleteProduct(${p.id})">Delete</button>
+          <button class="action-btn btn-edit" onclick="editProduct('${p.id}')">Edit</button>
+          <button class="action-btn btn-del"  onclick="deleteProduct('${p.id}')">Delete</button>
         </div>
       </td>
     </tr>
