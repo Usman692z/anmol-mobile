@@ -916,20 +916,41 @@ tr:hover td{background:var(--bg3);color:var(--text)}
         </div>
         <div class="form-group">
           <label class="form-label">Brand</label>
-          <select class="form-select" id="f-brand">
-            <option>Apple</option>
-            <option>Samsung</option>
-            <option>Other</option>
-          </select>
+          <input class="form-input" id="f-brand" list="brand-list" placeholder="Type or select brand..." autocomplete="off">
+          <datalist id="brand-list">
+            <option value="Apple">
+            <option value="Samsung">
+            <option value="Xiaomi">
+            <option value="Oppo">
+            <option value="Vivo">
+            <option value="Realme">
+            <option value="Huawei">
+            <option value="Nokia">
+            <option value="OnePlus">
+            <option value="Google">
+            <option value="Sony">
+            <option value="Motorola">
+            <option value="Tecno">
+            <option value="Infinix">
+            <option value="Honor">
+            <option value="Nothing">
+          </datalist>
         </div>
         <div class="form-group">
           <label class="form-label">Category</label>
-          <select class="form-select" id="f-category">
-            <option value="iphone">iPhone</option>
-            <option value="samsung">Samsung</option>
-            <option value="used">Used Phones</option>
-            <option value="accessories">Accessories</option>
-          </select>
+          <input class="form-input" id="f-category" list="category-list" placeholder="Type or select category..." autocomplete="off">
+          <datalist id="category-list">
+            <option value="Mobile Phone">
+            <option value="Accessories">
+            <option value="iphone">
+            <option value="samsung">
+            <option value="used">
+            <option value="smartwatch">
+            <option value="charger">
+            <option value="earbuds">
+            <option value="cover">
+            <option value="screen protector">
+          </datalist>
         </div>
         <div class="form-group">
           <label class="form-label">Condition</label>
