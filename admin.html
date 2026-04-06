@@ -790,42 +790,10 @@ tr:hover td{background:var(--bg3);color:var(--text)}
     <div class="page" id="page-banners">
       <div class="toolbar">
         <h3 style="font-family:'Syne',sans-serif">Manage Banners</h3>
-        <button class="top-btn primary" onclick="showToast('Banner editor coming soon','🖼')">+ Add Banner</button>
+        <button class="top-btn primary" onclick="openBannerModal()">+ Add Banner</button>
       </div>
-      <div style="display:flex;flex-direction:column;gap:16px">
-        <div class="item-card">
-          <div class="item-icon" style="width:80px;height:56px;border-radius:8px;background:linear-gradient(135deg,#1a0e00,#2d1a00);font-size:24px">📱</div>
-          <div class="item-info">
-            <div class="item-name">iPhone 15 Pro Max — Limited Offer</div>
-            <div class="item-meta">Active · Slide 1 · Click-through: 142 times</div>
-          </div>
-          <div class="item-actions">
-            <button class="action-btn btn-edit" onclick="showToast('Banner edit mode','✏️')">Edit</button>
-            <button class="action-btn btn-del" onclick="showToast('Banner deleted','🗑')">Delete</button>
-          </div>
-        </div>
-        <div class="item-card">
-          <div class="item-icon" style="width:80px;height:56px;border-radius:8px;background:linear-gradient(135deg,#0a0f1a,#0d1a2e);font-size:24px">🌌</div>
-          <div class="item-info">
-            <div class="item-name">Samsung Galaxy S24 Ultra — New Arrival</div>
-            <div class="item-meta">Active · Slide 2 · Click-through: 87 times</div>
-          </div>
-          <div class="item-actions">
-            <button class="action-btn btn-edit" onclick="showToast('Banner edit mode','✏️')">Edit</button>
-            <button class="action-btn btn-del" onclick="showToast('Banner deleted','🗑')">Delete</button>
-          </div>
-        </div>
-        <div class="item-card">
-          <div class="item-icon" style="width:80px;height:56px;border-radius:8px;background:linear-gradient(135deg,#0f0a1a,#1a0d2e);font-size:24px">🎧</div>
-          <div class="item-info">
-            <div class="item-name">AirPods & Accessories — Best Value</div>
-            <div class="item-meta">Active · Slide 3 · Click-through: 63 times</div>
-          </div>
-          <div class="item-actions">
-            <button class="action-btn btn-edit" onclick="showToast('Banner edit mode','✏️')">Edit</button>
-            <button class="action-btn btn-del" onclick="showToast('Banner deleted','🗑')">Delete</button>
-          </div>
-        </div>
+      <div id="bannersListWrap" style="display:flex;flex-direction:column;gap:16px">
+        <div style="text-align:center;color:var(--text3);padding:40px">Loading banners…</div>
       </div>
     </div>
 
@@ -902,6 +870,47 @@ tr:hover td{background:var(--bg3);color:var(--text)}
 </main>
 
 <!-- PRODUCT MODAL -->
+<!-- ===== BANNER MODAL ===== -->
+<div class="modal-overlay" id="bannerModal">
+  <div class="modal" style="max-width:480px">
+    <div class="modal-header">
+      <span class="modal-title" id="bannerModalTitle">Add Banner</span>
+      <button class="modal-close" onclick="closeBannerModal()">✕</button>
+    </div>
+    <div class="modal-body">
+      <div class="form-grid">
+        <div class="form-group full">
+          <label class="form-label">Title</label>
+          <input class="form-input" id="b-title" placeholder="e.g. iPhone 15 Pro Max">
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Subtitle</label>
+          <input class="form-input" id="b-subtitle" placeholder="e.g. Up to 15% Off · Titanium design">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Badge Text</label>
+          <input class="form-input" id="b-badge" placeholder="e.g. Limited Offer">
+        </div>
+        <div class="form-group">
+          <label class="form-label">Slide Order</label>
+          <input class="form-input" type="number" id="b-slide" placeholder="0" min="0">
+        </div>
+        <div class="form-group full">
+          <label class="form-label">Active</label>
+          <select class="form-select" id="b-active">
+            <option value="true">Yes — show on site</option>
+            <option value="false">No — hide</option>
+          </select>
+        </div>
+      </div>
+    </div>
+    <div class="modal-footer">
+      <button class="btn btn-ghost" onclick="closeBannerModal()">Cancel</button>
+      <button class="btn btn-primary" onclick="saveBanner()">Save Banner</button>
+    </div>
+  </div>
+</div>
+
 <div class="modal-overlay" id="productModal">
   <div class="modal">
     <div class="modal-header">
@@ -1128,6 +1137,7 @@ function showPage(id, navBtn) {
   if (id === 'products') renderProductsTable();
   if (id === 'orders')   loadOrders();
   if (id === 'customers') loadCustomers();
+  if (id === 'banners')  loadBanners();
   closeSidebar();
 }
 
@@ -1448,6 +1458,107 @@ function showToast(msg, icon='ℹ️') {
   document.body.appendChild(toast);
   setTimeout(() => toast && toast.remove(), 3000);
 }
+
+// ===== BANNERS =====
+let banners = [
+  {id:1, title:'iPhone 15 Pro Max', subtitle:'Up to 15% Off · Titanium design · A17 Pro chip', badge_text:'Limited Offer', slide_index:0, active:true},
+  {id:2, title:'Samsung Galaxy S24 Ultra', subtitle:'Galaxy AI · 200MP camera · Titanium frame', badge_text:'New Arrival', slide_index:1, active:true},
+  {id:3, title:'AirPods & Accessories', subtitle:'Original accessories · Best prices in Abbottabad', badge_text:'Best Value', slide_index:2, active:true}
+];
+let editingBannerId = null;
+
+async function loadBanners() {
+  if (SUPABASE_CONFIGURED) {
+    const {data, error} = await sb.from('banners').select('*').order('slide_index');
+    if (!error && data) banners = data;
+  }
+  renderBannersList();
+}
+
+function renderBannersList() {
+  const wrap = document.getElementById('bannersListWrap');
+  if (!banners.length) {
+    wrap.innerHTML = '<div style="text-align:center;color:var(--text3);padding:40px">No banners yet. Click + Add Banner.</div>';
+    return;
+  }
+  wrap.innerHTML = banners.map(b => `
+    <div class="item-card">
+      <div class="item-icon" style="width:80px;height:56px;border-radius:8px;background:linear-gradient(135deg,#1a0e00,#2d1a00);font-size:22px;display:flex;align-items:center;justify-content:center;">🖼</div>
+      <div class="item-info">
+        <div class="item-name">${b.title}${b.badge_text ? ' — ' + b.badge_text : ''}</div>
+        <div class="item-meta">${b.active ? 'Active' : 'Hidden'} · Slide ${(b.slide_index||0)+1}${b.subtitle ? ' · ' + b.subtitle : ''}</div>
+      </div>
+      <div class="item-actions">
+        <button class="action-btn btn-edit" onclick="openBannerModal(${b.id})">Edit</button>
+        <button class="action-btn btn-del" onclick="deleteBanner(${b.id})">Delete</button>
+      </div>
+    </div>
+  `).join('');
+}
+
+function openBannerModal(id) {
+  editingBannerId = id || null;
+  const b = id ? banners.find(x => String(x.id) === String(id)) : null;
+  document.getElementById('bannerModalTitle').textContent = b ? 'Edit Banner' : 'Add Banner';
+  document.getElementById('b-title').value    = b ? b.title : '';
+  document.getElementById('b-subtitle').value = b ? (b.subtitle || '') : '';
+  document.getElementById('b-badge').value    = b ? (b.badge_text || '') : '';
+  document.getElementById('b-slide').value    = b ? (b.slide_index || 0) : banners.length;
+  document.getElementById('b-active').value   = b ? String(b.active !== false) : 'true';
+  document.getElementById('bannerModal').classList.add('open');
+}
+
+function closeBannerModal() {
+  document.getElementById('bannerModal').classList.remove('open');
+  editingBannerId = null;
+}
+
+async function saveBanner() {
+  const title = document.getElementById('b-title').value.trim();
+  if (!title) { showToast('Title is required', '⚠️'); return; }
+  const data = {
+    title,
+    subtitle:    document.getElementById('b-subtitle').value.trim() || null,
+    badge_text:  document.getElementById('b-badge').value.trim() || null,
+    slide_index: parseInt(document.getElementById('b-slide').value) || 0,
+    active:      document.getElementById('b-active').value === 'true'
+  };
+  if (SUPABASE_CONFIGURED) {
+    let error;
+    if (editingBannerId) {
+      ({error} = await sb.from('banners').update(data).eq('id', editingBannerId));
+    } else {
+      ({error} = await sb.from('banners').insert([data]));
+    }
+    if (error) { showToast('Save failed: ' + error.message, '❌'); return; }
+  } else {
+    if (editingBannerId) {
+      const idx = banners.findIndex(x => String(x.id) === String(editingBannerId));
+      if (idx !== -1) banners[idx] = {...banners[idx], ...data};
+    } else {
+      banners.push({id: Date.now(), ...data});
+    }
+  }
+  showToast(editingBannerId ? 'Banner updated' : 'Banner added', '✅');
+  closeBannerModal();
+  loadBanners();
+}
+
+async function deleteBanner(id) {
+  if (!confirm('Delete this banner?')) return;
+  if (SUPABASE_CONFIGURED) {
+    const {error} = await sb.from('banners').delete().eq('id', id);
+    if (error) { showToast('Delete failed: ' + error.message, '❌'); return; }
+  } else {
+    banners = banners.filter(x => String(x.id) !== String(id));
+  }
+  showToast('Banner deleted', '🗑');
+  renderBannersList();
+}
+
+document.getElementById('bannerModal').addEventListener('click', e => {
+  if (e.target === document.getElementById('bannerModal')) closeBannerModal();
+});
 
 // ===== INIT =====
 checkAuth();
