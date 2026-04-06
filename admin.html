@@ -927,13 +927,28 @@ tr:hover td{background:var(--bg3);color:var(--text)}
             <option value="Huawei">
             <option value="Nokia">
             <option value="OnePlus">
-            <option value="Google">
+            <option value="Google Pixel">
             <option value="Sony">
             <option value="Motorola">
             <option value="Tecno">
             <option value="Infinix">
             <option value="Honor">
             <option value="Nothing">
+            <option value="Itel">
+            <option value="Redmi">
+            <option value="POCO">
+            <option value="iQOO">
+            <option value="Asus ROG">
+            <option value="Lenovo">
+            <option value="ZTE">
+            <option value="Blackview">
+            <option value="Doogee">
+            <option value="Alcatel">
+            <option value="HTC">
+            <option value="LG">
+            <option value="OnePlus Nord">
+            <option value="Camon (Tecno)">
+            <option value="Spark (Tecno)">
           </datalist>
         </div>
         <div class="form-group">
@@ -942,14 +957,6 @@ tr:hover td{background:var(--bg3);color:var(--text)}
           <datalist id="category-list">
             <option value="Mobile Phone">
             <option value="Accessories">
-            <option value="iphone">
-            <option value="samsung">
-            <option value="used">
-            <option value="smartwatch">
-            <option value="charger">
-            <option value="earbuds">
-            <option value="cover">
-            <option value="screen protector">
           </datalist>
         </div>
         <div class="form-group">
@@ -997,11 +1004,19 @@ tr:hover td{background:var(--bg3);color:var(--text)}
           <label class="form-label">Product Photos</label>
           <!-- Photo grid -->
           <div id="photoGrid" style="display:grid;grid-template-columns:repeat(auto-fill,minmax(100px,1fr));gap:10px;margin-bottom:10px;"></div>
-          <!-- Upload button -->
-          <label for="imageFileInput" style="cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border:2px dashed var(--border);border-radius:10px;color:var(--text3);font-size:13px;transition:all 0.3s;" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text3)'">
-            <span style="font-size:20px">📷</span> Add Photo (tap to pick from gallery)
-          </label>
-          <input type="file" id="imageFileInput" accept="image/*" multiple style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;" onchange="handleImageSelect(this)">
+          <!-- Upload buttons: Camera or Gallery -->
+          <div style="display:flex;gap:10px;margin-bottom:4px;">
+            <label for="imageInputCamera" style="flex:1;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border:2px dashed var(--border);border-radius:10px;color:var(--text3);font-size:13px;transition:all 0.3s;" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text3)'">
+              <span style="font-size:20px">📷</span> Camera
+            </label>
+            <label for="imageInputGallery" style="flex:1;cursor:pointer;display:flex;align-items:center;justify-content:center;gap:8px;padding:12px;border:2px dashed var(--border);border-radius:10px;color:var(--text3);font-size:13px;transition:all 0.3s;" onmouseover="this.style.borderColor='var(--gold)';this.style.color='var(--gold)'" onmouseout="this.style.borderColor='var(--border)';this.style.color='var(--text3)'">
+              <span style="font-size:20px">🖼️</span> Gallery
+            </label>
+          </div>
+          <input type="file" id="imageInputCamera" accept="image/*" capture="camera" style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;" onchange="handleImageSelect(this)">
+          <input type="file" id="imageInputGallery" accept="image/*" multiple style="position:absolute;width:1px;height:1px;opacity:0;pointer-events:none;" onchange="handleImageSelect(this)">
+          <!-- keep old id as alias so existing JS still works -->
+          <input type="file" id="imageFileInput" accept="image/*" multiple style="display:none;" onchange="handleImageSelect(this)">
           <div id="uploadProgress" style="display:none;margin-top:8px;">
             <div style="background:var(--border);border-radius:4px;height:4px;overflow:hidden;">
               <div id="uploadBar" style="height:100%;background:var(--gold);width:0%;transition:width 0.3s;border-radius:4px;"></div>
