@@ -622,7 +622,8 @@ tr:hover td{background:var(--bg3);color:var(--text)}
                 <th>Name</th>
                 <th>Brand</th>
                 <th>Category</th>
-                <th>Price</th>
+                <th>Original Price</th>
+                <th>Sale Price</th>
                 <th>Badge</th>
                 <th>Actions</th>
               </tr>
@@ -1150,6 +1151,7 @@ function renderProductsTable() {
       <td class="td-name">${p.name}</td>
       <td>${p.brand}</td>
       <td>${p.category}</td>
+      <td style="color:var(--text3);text-decoration:${p.old_price ? 'line-through' : 'none'};font-size:13px">${p.old_price ? 'PKR ' + Number(p.old_price).toLocaleString() : '—'}</td>
       <td style="color:var(--gold);font-weight:600">PKR ${Number(p.price).toLocaleString()}</td>
       <td><span class="badge badge-${p.badge}">${(p.badge||'').toUpperCase()}</span></td>
       <td>
